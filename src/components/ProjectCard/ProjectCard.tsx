@@ -41,7 +41,7 @@ function ProjectImage({ project }: { project: IProjectResponse }) {
                 src={preview.image}
                 alt={`${project.title} preview ${i + 1}`}
                 fill
-                className=" relative! transition-all duration-700 group-hover:brightness-110"
+                className=" object-contain relative! transition-all duration-700 group-hover:brightness-110"
                 sizes="100vw"
               />
             </div>
