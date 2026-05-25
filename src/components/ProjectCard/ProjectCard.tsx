@@ -17,57 +17,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-// function ProjectImage({ project }: { project: Project }) {
-//   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
-
-//   const scrollPrev = () => emblaApi?.scrollPrev();
-//   const scrollNext = () => emblaApi?.scrollNext();
-//   return (
-//       <div className="relative h-70 overflow-hidden border-b border-white/5 group-hover:border-red-500/20 transition-colors duration-500" >
-
-//           <div className='h-full overflow-hidden' ref={emblaRef}>
-//             <div className="flex h-full">
-//               <div className="min-w-0 flex-[0_0_100%] relative">
-//                 <Image
-//                   src={project.image}
-//                   alt={`${project.title} preview`}
-//                   fill
-//                   className=" object-cover transition-all duration-700 group-hover:brightness-110"
-//                 />
-//               </div>
-//               <div className="min-w-0 flex-[0_0_100%] relative ">
-//                 <Image
-//                   src={project.image}
-//                   alt={`${project.title} preview`}
-//                   fill
-//                   className=" object-cover transition-all duration-700 group-hover:brightness-110"
-//                 />
-//               </div>
-//               <div className="min-w-0 flex-[0_0_100%] relative ">
-//                 <Image
-//                   src={project.image}
-//                   alt={`${project.title} preview`}
-//                   fill
-//                   className=" object-cover transition-all duration-700 group-hover:brightness-110"
-//                 />
-//               </div>
-//             </div>
-//           </div>
-
-//         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 ">
-//           <a
-//             href={project.siteUrl}
-//             target="_blank"
-//             className="w-16 h-16 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20 hover:opacity-80 transition-all"
-//           >
-//             <ExternalLink size={24} className="text-white " />
-//           </a>
-//           <button onClick={scrollNext}>next</button>
-//         </div>
-//       </div>
-//   );
-// }
-
 function ProjectImage({ project }: { project: IProjectResponse }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 6000, stopOnInteraction: false }),
@@ -79,7 +28,28 @@ function ProjectImage({ project }: { project: IProjectResponse }) {
   // const slides = Array(3).fill(project.image);
 
   return (
-    <div className="relative h-70 overflow-hidden border-b border-white/5 group-hover:border-red-500/20 transition-colors duration-500">
+    <div className="relative overflow-hidden border-b border-white/5 group-hover:border-red-500/20 transition-colors duration-500">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {project.previews.map((preview, i) => (
+            <div
+              key={i}
+              className="flex-[0_0_100%] min-w-0 relative"
+              style={{ aspectRatio: '16/9' }}
+            >
+              <Image
+                src={preview.image}
+                alt={`${project.title} preview ${i + 1}`}
+                fill
+                className=" relative! transition-all duration-700 group-hover:brightness-110"
+                sizes="100vw"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* <div className="relative h-70 overflow-hidden border-b border-white/5 group-hover:border-red-500/20 transition-colors duration-500">
       <div className="h-full overflow-hidden" ref={emblaRef}>
         <div className="flex h-full">
           {project.previews.map((preview, i) => (
@@ -93,9 +63,8 @@ function ProjectImage({ project }: { project: IProjectResponse }) {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Кнопки навигации */}
+      </div> */}
+      
       <button
         onClick={scrollPrev}
         className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/20 text-white/60 hover:text-white hover:border-white/40 opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
@@ -109,7 +78,6 @@ function ProjectImage({ project }: { project: IProjectResponse }) {
         <ChevronRight size={16} />
       </button>
 
-      {/* Иконка просмотра */}
       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
         <a
           href={project.siteUrl}
